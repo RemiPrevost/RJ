@@ -2,8 +2,14 @@ package rio.riosport;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.opengl.Matrix;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +34,7 @@ public class Main extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setCurrentDate();
+        //setCurrentDate();
         customActionBar();
     }
 
@@ -63,8 +69,7 @@ public class Main extends Activity {
 
     }
     public void setCurrentDate() {
-        //date = (DatePicker)findViewById(R.id.date);
-        textdate = (TextView)findViewById(R.id.day);
+        //textdate = (TextView)findViewById(R.id.day);
         final Calendar calendar = Calendar.getInstance();
 
         year = calendar.get(Calendar.YEAR);
@@ -124,7 +129,6 @@ public class Main extends Activity {
                 .append(monthString).append(" ")
                 .append(year).append(" "));
         // set current date into Date Picker
-        //date.init(year, month, day, null);
     }
 }
 

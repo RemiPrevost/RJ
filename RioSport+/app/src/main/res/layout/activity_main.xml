@@ -10,15 +10,46 @@
     tools:context="rio.riosport.Main">
 
 
-    <rio.riosport.customTextView
+    <!--<rio.riosport.customTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layoutAnimation="@anim/fadein"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/day"
-        android:textSize="40dp"
+        android:textSize="35dp"
         android:textColor="@color/green"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp" />
+        android:layout_centerHorizontal="true" />-->
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/christ"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/christ" />
+
+    <rio.riosport.customTextView
+        android:id="@+id/titleFrag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layoutAnimation="@anim/fadein"
+        android:text="Rio"
+        android:textSize="50sp"
+        android:textColor="@color/green"
+        android:layout_alignTop="@+id/titleFrag2"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="45dp" />
+
+    <rio.riosport.customTextView
+        android:id="@+id/titleFrag2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:textColor="@color/blue"
+        android:layoutAnimation="@anim/fadein"
+        android:text="Sport"
+        android:layout_marginRight="22dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
