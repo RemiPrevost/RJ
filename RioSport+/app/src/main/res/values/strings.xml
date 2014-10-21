@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RioSport</string>
+    <string name="title_activity_main">RioSport</string>
+    <string name="title_activity_login">Login</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="welcome">Bienvenue Sur RioSport</string>
+    <string name="friends">Amis</string>
+    <string name="map">Carte</string>
+    <string name="event">Évenements</string>
+    <string name="mon">Lun</string>
+    <string name="tue">Mar</string>
+    <string name="wed">Mer</string>
+    <string name="thu">Jeu</string>
+    <string name="fri">Ven</string>
+    <string name="sat">Sam</string>
+    <string name="sun">Dim</string>
+    <string name="jan">Jan</string>
+    <string name="feb">Fev</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Avr</string>
+    <string name="may">Mai</string>
+    <string name="jun">Jui</string>
+    <string name="jul">juil</string>
+    <string name="aug">Aou</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Oct</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dec</string>
+
+</resources>
