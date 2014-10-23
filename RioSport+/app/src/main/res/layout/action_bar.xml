@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/small_padd"
     android:enabled="false">
 
-    <rio.riosport.customTextView
+    <com.google.riosport.customTextView
     android:id="@+id/titleFrag1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
     android:textSize="30sp"
     android:textColor="@color/green"/>
 
-    <rio.riosport.customTextView
+    <com.google.riosport.customTextView
     android:id="@+id/titleFrag2"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

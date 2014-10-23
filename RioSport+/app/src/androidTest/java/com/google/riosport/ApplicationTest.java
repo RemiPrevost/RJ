@@ -1,4 +1,4 @@
-package rio.riosport;
+package com.google.riosport;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

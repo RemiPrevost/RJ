@@ -1,4 +1,4 @@
-package rio.riosport;
+package com.google.riosport;
 
 import android.content.Context;
 import android.graphics.Typeface;
