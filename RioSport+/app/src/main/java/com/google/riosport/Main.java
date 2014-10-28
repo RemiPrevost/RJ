@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,6 +70,7 @@ public class Main extends Activity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //final Animation FadeIn = AnimationUtils.loadAnimation(this, R.anim.fadein);
 
         //setCurrentDate();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -94,7 +97,10 @@ public class Main extends Activity implements View.OnClickListener,
         christ = (ImageView) findViewById(R.id.christ);
         titlefrag1 = (com.google.riosport.customTextView) findViewById(R.id.titleFrag1);
         titlefrag2 = (com.google.riosport.customTextView) findViewById(R.id.titleFrag2);
+        //titlefrag1.startAnimation(FadeIn);
+        //titlefrag2.startAnimation(FadeIn);
         customActionBar();
+
     }
 
     @Override
