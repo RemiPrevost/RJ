@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ public class Main extends Activity implements View.OnClickListener,
     private static final int REQUEST_CODE_GET_GOOGLE_PLAY_SERVICES = 2;
 
     private TextView mSignInStatus, txtName, txtEmail;
+    private Button go;
     private GoogleApiClient mGoogleApiClient;
     private SignInButton mSignInButton;
     private View mSignOutButton;
@@ -79,6 +81,8 @@ public class Main extends Activity implements View.OnClickListener,
         mSignInStatus = (TextView) findViewById(R.id.sign_in_status);
         mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
         mSignInButton.setOnClickListener(this);
+        go = (Button)findViewById(R.id.go);
+        go.setOnClickListener(this);
         mSignOutButton = findViewById(R.id.sign_out_button);
         mSignOutButton.setOnClickListener(this);
         mRevokeAccessButton = findViewById(R.id.revoke_access_button);
@@ -153,7 +157,11 @@ public class Main extends Activity implements View.OnClickListener,
                     mGoogleApiClient.connect();
                 }
                 break;
-
+            case R.id.go:
+                if (mGoogleApiClient.isConnected()) {
+                //code pour l'activité suivante//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                }
+                break;
         }
     }
 
@@ -217,6 +225,7 @@ public class Main extends Activity implements View.OnClickListener,
             mSignOutButton.setEnabled(true);
             mRevokeAccessButton.setEnabled(true);
             llProfileLayout.setVisibility(View.VISIBLE);
+            go.setVisibility(View.VISIBLE);
             christ.setVisibility(View.INVISIBLE);
             titlefrag1.setVisibility(View.INVISIBLE);
             titlefrag2.setVisibility(View.INVISIBLE);
@@ -230,6 +239,7 @@ public class Main extends Activity implements View.OnClickListener,
                 mSignInButton.setVisibility(View.VISIBLE);
                 mSignInStatus.setText(getString(R.string.signed_out_status));
                 llProfileLayout.setVisibility(View.INVISIBLE);
+                go.setVisibility(View.INVISIBLE);
                 christ.setVisibility(View.VISIBLE);
                 titlefrag1.setVisibility(View.VISIBLE);
                 titlefrag2.setVisibility(View.VISIBLE);

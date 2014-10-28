@@ -20,7 +20,7 @@
         android:id="@+id/llProfile"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal"
         android:weightSum="3"
         android:visibility="gone">
@@ -126,5 +126,17 @@
         android:layout_marginBottom="55dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/middle_padd"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/go"
+        android:text="@string/go"
+        style="@style/GoButton"
+        android:visibility="gone"
+        android:layout_alignTop="@+id/titleFrag2"
+        android:paddingRight="@dimen/small_padd"
+        android:paddingLeft="@dimen/small_padd"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

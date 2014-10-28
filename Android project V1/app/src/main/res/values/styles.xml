@@ -51,5 +51,9 @@
         <item name="android:background">@color/translucide</item>
     </style>
 
+    <style name="GoButton">
+        <item name="android:background">@drawable/jaune</item>
+    </style>
+
 </resources>
 
