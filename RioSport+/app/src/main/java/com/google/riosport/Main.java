@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
@@ -17,9 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.PlusClient;
 import com.google.android.gms.plus.model.people.Person;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Calendar;
 
@@ -41,30 +44,26 @@ public class Main extends Activity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private TextView textdate = null;
-    private int year;
-    private int month;
-    private int day;
-    private int day_week;
-    private String monthString = null;
-    private String dayString = null;
+    private int year, day, month, day_week, gender;
+    protected static String monthString, dayString, txtName, txtEmail, birthday, urlpicture = null; //private normalement
+
+    protected static boolean sign_out = false;
 
     private static final int DIALOG_GET_GOOGLE_PLAY_SERVICES = 1;
     private static final String TAG = "Main";
     private static final int REQUEST_CODE_SIGN_IN = 1;
     private static final int REQUEST_CODE_GET_GOOGLE_PLAY_SERVICES = 2;
 
-    private TextView mSignInStatus, txtName, txtEmail;
-    private Button go;
+    private TextView mSignInStatus;
     private GoogleApiClient mGoogleApiClient;
     private SignInButton mSignInButton;
     private View mSignOutButton;
     private ConnectionResult mConnectionResult;
     private View mRevokeAccessButton;
-    private LinearLayout llProfileLayout;
     private ImageView imgProfilePic, christ;
     private com.google.riosport.customTextView titlefrag1;
     private com.google.riosport.customTextView titlefrag2;
-
+    protected static String picture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,16 +83,12 @@ public class Main extends Activity implements View.OnClickListener,
         mSignInStatus = (TextView) findViewById(R.id.sign_in_status);
         mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
         mSignInButton.setOnClickListener(this);
-        go = (Button)findViewById(R.id.go);
-        go.setOnClickListener(this);
+        imgProfilePic = (ImageView) findViewById(R.id.imagepic);
         mSignOutButton = findViewById(R.id.sign_out_button);
         mSignOutButton.setOnClickListener(this);
         mRevokeAccessButton = findViewById(R.id.revoke_access_button);
         mRevokeAccessButton.setOnClickListener(this);
-        txtName = (TextView) findViewById(R.id.txtName);
-        txtEmail = (TextView) findViewById(R.id.txtEmail);
-        llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
-        imgProfilePic = (ImageView) findViewById(R.id.imgProfilePic);
+
         christ = (ImageView) findViewById(R.id.christ);
         titlefrag1 = (com.google.riosport.customTextView) findViewById(R.id.titleFrag1);
         titlefrag2 = (com.google.riosport.customTextView) findViewById(R.id.titleFrag2);
@@ -163,11 +158,6 @@ public class Main extends Activity implements View.OnClickListener,
                     mGoogleApiClient.connect();
                 }
                 break;
-            case R.id.go:
-                if (mGoogleApiClient.isConnected()) {
-                //code pour l'activité suivante//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                }
-                break;
         }
     }
 
@@ -207,10 +197,21 @@ public class Main extends Activity implements View.OnClickListener,
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        mSignInStatus.setVisibility(View.INVISIBLE);
-        getProfileInformation();
-        updateButtons(true /* isSignedIn */);
+        if (sign_out) {
+            mSignInStatus.setVisibility(View.VISIBLE);
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient.connect();
+            sign_out = false;
+        }else{
+            mSignInStatus.setVisibility(View.INVISIBLE);
+            getProfileInformation();
+            updateButtons(true /* isSignedIn */);
+            Intent intent = new Intent(Main.this, MyFragment.class);
+            startActivityForResult(intent, 10);
+        }
     }
+
 
     @Override
     public void onConnectionSuspended(int cause) {
@@ -230,11 +231,6 @@ public class Main extends Activity implements View.OnClickListener,
             mSignInButton.setVisibility(View.INVISIBLE);
             mSignOutButton.setEnabled(true);
             mRevokeAccessButton.setEnabled(true);
-            llProfileLayout.setVisibility(View.VISIBLE);
-            go.setVisibility(View.VISIBLE);
-            christ.setVisibility(View.INVISIBLE);
-            titlefrag1.setVisibility(View.INVISIBLE);
-            titlefrag2.setVisibility(View.INVISIBLE);
         } else {
             if (mConnectionResult == null) {
                 // Disable the sign-in button until onConnectionFailed is called with result.
@@ -244,13 +240,7 @@ public class Main extends Activity implements View.OnClickListener,
                 // Enable the sign-in button since a connection result is available.
                 mSignInButton.setVisibility(View.VISIBLE);
                 mSignInStatus.setText(getString(R.string.signed_out_status));
-                llProfileLayout.setVisibility(View.INVISIBLE);
-                go.setVisibility(View.INVISIBLE);
-                christ.setVisibility(View.VISIBLE);
-                titlefrag1.setVisibility(View.VISIBLE);
-                titlefrag2.setVisibility(View.VISIBLE);
             }
-
             mSignOutButton.setEnabled(false);
             mRevokeAccessButton.setEnabled(false);
         }
@@ -266,13 +256,19 @@ public class Main extends Activity implements View.OnClickListener,
                 String personPhotoUrl = currentPerson.getImage().getUrl();
                 String personGooglePlusProfile = currentPerson.getUrl();
                 String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+                String birth = currentPerson.getBirthday();
+                int gend = currentPerson.getGender();
 
                 Log.e(TAG, "Name: " + personName + ", plusProfile: "
                         + personGooglePlusProfile + ", email: " + email
-                        + ", Image: " + personPhotoUrl + ", id: " + id);
+                        + ", Image: " + personPhotoUrl + ", id: " + id + ", birth: " + birth + ", gender: " + gender);
 
-                txtName.setText("Sign in as : " + personName);
-                txtEmail.setText(email);
+                txtEmail = email;
+                txtName = personName;
+                birthday = birth;
+                urlpicture = personPhotoUrl;
+                gender = gend;
+
 
                 // by default the profile url gives 50x50 px image only
                 // we can replace the value with whatever dimension we want by
@@ -313,11 +309,10 @@ public class Main extends Activity implements View.OnClickListener,
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            //bmImage.setImageBitmap(result);
+            picture=saveToInternalSorage(result);
         }
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -331,12 +326,58 @@ public class Main extends Activity implements View.OnClickListener,
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+        super.onOptionsItemSelected(item);
+
+        switch(item.getItemId()) {
+            case R.id.deconnect:
+                Toast.makeText(getBaseContext(), "Sign out ...", Toast.LENGTH_SHORT).show();
+                if (mGoogleApiClient.isConnected()) {
+                    mSignInStatus.setVisibility(View.VISIBLE);
+                    Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+                    mGoogleApiClient.disconnect();
+                    mGoogleApiClient.connect();
+                    sign_out = false;
+                }
+                break;
+            case R.id.action_settings:
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState (Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString(TAG,TAG);
+    }
+
+    private String saveToInternalSorage(Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath=new File(directory,"profile.png");
+
+        FileOutputStream fos = null;
+        try {
+
+            fos = new FileOutputStream(mypath);
+
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 90, fos);
+
+
+            fos.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return directory.getAbsolutePath();
     }
 
 
     public void customActionBar(){
+
         ActionBar mActionBar = getActionBar();
         mActionBar.setDisplayShowHomeEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(false);
@@ -408,6 +449,8 @@ public class Main extends Activity implements View.OnClickListener,
                 .append(year).append(" "));
         // set current date into Date Picker
     }
+
+
 }
 
 

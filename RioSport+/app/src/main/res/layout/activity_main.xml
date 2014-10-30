@@ -16,46 +16,6 @@
         android:textColor="@color/green"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />-->
-    <LinearLayout
-        android:id="@+id/llProfile"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:orientation="horizontal"
-        android:weightSum="3"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/imgProfilePic"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical"
-            android:layout_marginTop="70dp"
-            android:layout_weight="2" >
-
-            <TextView
-                android:id="@+id/txtName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/txtEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textSize="18dp" />
-        </LinearLayout>
-    </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"
@@ -125,16 +85,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/middle_padd"/>
 
-    <Button
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/go"
-        android:text="@string/go"
-        style="@style/GoButton"
         android:visibility="gone"
-        android:layout_alignTop="@+id/titleFrag2"
-        android:paddingRight="@dimen/small_padd"
-        android:paddingLeft="@dimen/small_padd"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/imagepic"/>
 
 </RelativeLayout>
