@@ -13,6 +13,9 @@
     <string name="addfriend">Add friend</string>
     <string name="friend">friend</string>
     <string name="go">Let\'s go!</string>
+    <string name="create_new_event">Creat a new event</string>
+    <string name="create_event">create event</string>
+    <string name="sport">Sport : </string>
     <string name="mon">Lun</string>
     <string name="tue">Mar</string>
     <string name="wed">Mer</string>
@@ -32,15 +35,13 @@
     <string name="oct">Oct</string>
     <string name="nov">Nov</string>
     <string name="dec">Dec</string>
-
     <string name="change_locale">Change Locale</string>
     <string name="list_moments_title">Touch a moment to delete</string>
     <string name="send_interactive_button_name">Send Interactive Post</string>
     <string name="sign_in_profile_label">profile scope</string>
     <string name="sign_out_button_name">Sign out</string>
     <string name="revoke_access_button_name">Revoke access</string>
-
-    <string name="default_status"/>
+    <string name="default_status"></string>
     <string name="greeting_status">Welcome, %s.</string>
     <string name="greeting_status_sign_in_required">Sign-in required</string>
     <string name="greeting_status_error">Error signing in: %s.</string>
@@ -53,8 +54,8 @@
     <!-- Used if there was an error loading the signed in user's name. -->
     <string name="unknown_person">Unknown</string>
     <string name="signed_out_status">Signed out.</string>
-
     <string name="plus_generic_error">Sign in with Google is not available.</string>
-    <string name="progress_message">Signing in to Google&#8230;</string>
+    <string name="progress_message">Signing in to Google…</string>
+    <string name="title_activity_create_event">CreateEvent</string>
 
 </resources>

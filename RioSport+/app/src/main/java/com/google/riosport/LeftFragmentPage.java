@@ -1,5 +1,6 @@
 package com.google.riosport;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -25,7 +26,7 @@ import java.io.FileNotFoundException;
 public class LeftFragmentPage extends Fragment {
     private ImageView profilepicture;
     private TextView profile;
-    private Button friend;
+    private Button friend,event;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +40,15 @@ public class LeftFragmentPage extends Fragment {
         profile.setText(Main.txtName);
         profile.setTextSize(15);
         friend.setTextSize(15);
+
+        event = (Button) leftleview.findViewById(R.id.create_event);
+        event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CreateEvent.class);
+                startActivityForResult(intent, 10);
+            }
+        });
 
         try{
             File f= new File(Main.picture, "profile.png");

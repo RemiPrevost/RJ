@@ -50,7 +50,6 @@ public class MyFragment extends FragmentActivity {
         pager.setAdapter(this.mPagerAdapter);
 
         customActionBar();
-
     }
 
 

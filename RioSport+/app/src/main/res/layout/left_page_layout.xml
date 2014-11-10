@@ -39,4 +39,10 @@
 
      </RelativeLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_event"
+        android:text="@string/create_new_event"/>
+
 </LinearLayout>

@@ -13,13 +13,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,10 +30,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.PlusClient;
 import com.google.android.gms.plus.model.people.Person;
 
 import java.io.File;
@@ -185,12 +182,10 @@ public class Main extends Activity implements View.OnClickListener,
                 box.setPositiveButton("Validate", new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {
-                                String value = input.getText().toString();
-                                birthday = value;
+                                birthday = input.getText().toString();
                                 updateButtons(true /* isSignedIn */);
                                 Intent intent = new Intent(Main.this, MyFragment.class);
                                 startActivityForResult(intent, 10);
-
                             }
                         }
                 );
@@ -206,7 +201,31 @@ public class Main extends Activity implements View.OnClickListener,
                         }
                 );
 
-                box.show();
+                final AlertDialog dialog = box.create();
+                dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+                input.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        if (input.getText().toString().matches("[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]") && input.length()>0){
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                        }else{
+                        Toast.makeText(getBaseContext(), "Wrong format, follow indications", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
             }else{
                 updateButtons(true /* isSignedIn */);
                 Intent intent = new Intent(Main.this, MyFragment.class);
@@ -454,4 +473,4 @@ public class Main extends Activity implements View.OnClickListener,
 
 
 
-
+//TODO
