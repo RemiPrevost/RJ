@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
 <com.google.riosport.customTextView
-    android:id="@+id/gauche"
+    android:id="@+id/left"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -17,25 +17,16 @@
      android:layout_height="wrap_content"
      android:orientation="horizontal">
 
-     <ImageView
+     <ListView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_marginLeft="@dimen/small_padd"
-         android:id="@+id/profilpicture"/>
+         android:choiceMode="singleChoice"
+         android:id="@+id/list_friend"
+         android:scrollbars="vertical"
+         android:layout_alignParentStart="true"
+         android:layout_marginTop="@dimen/middle_padd">
 
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="@dimen/middle_padd"
-         android:layout_marginLeft="@dimen/big_padd"
-         android:id="@+id/name"/>
-
-     <Button
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:id="@+id/friendbutton"
-         android:backgroundTint="@color/blue"
-         android:layout_alignParentRight="true" />
+     </ListView>
 
      </RelativeLayout>
 

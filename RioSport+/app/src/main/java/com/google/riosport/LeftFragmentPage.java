@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -24,24 +25,33 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class LeftFragmentPage extends Fragment {
-    private ImageView profilepicture;
-    private TextView profile;
-    private Button friend,event;
+
+    ListView list;
+    private Button friend, event;
+    String[] profile_txt = {Main.txtName};
+    Bitmap[] Image = new Bitmap[1];
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View leftleview = inflater.inflate(R.layout.left_page_layout, container, false);
+        View leftview = inflater.inflate(R.layout.left_page_layout, container, false);
+        try{
+            File f= new File(Main.picture, "profile.png");
+            Bitmap image = getCircleBitmap(BitmapFactory.decodeStream(new FileInputStream(f)));
+            Image[0]=image;
+            //profilepicture.setImageBitmap(getCircleBitmap(image));
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
 
-        profile = (TextView) leftleview.findViewById(R.id.name);
-        friend = (Button) leftleview.findViewById(R.id.friendbutton);
-        profilepicture = (ImageView) leftleview.findViewById(R.id.profilpicture);
-        profile.setText(Main.txtName);
-        profile.setTextSize(15);
-        friend.setTextSize(15);
+        ListCustomFriend adapter = new ListCustomFriend(getActivity(), profile_txt, Image, friend);
+        list=(ListView)leftview.findViewById(R.id.list_friend);
+        list.setAdapter(adapter);
 
-        event = (Button) leftleview.findViewById(R.id.create_event);
+        event = (Button) leftview.findViewById(R.id.create_event);
         event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,20 +60,8 @@ public class LeftFragmentPage extends Fragment {
             }
         });
 
-        try{
-            File f= new File(Main.picture, "profile.png");
-            Bitmap image = BitmapFactory.decodeStream(new FileInputStream(f));
-            profilepicture.setImageBitmap(getCircleBitmap(image));
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
-        friend.setText(R.string.addfriend);
-
         //code
-        return leftleview;
+        return leftview;
     }
 
     private Bitmap getCircleBitmap(Bitmap bitmap) {

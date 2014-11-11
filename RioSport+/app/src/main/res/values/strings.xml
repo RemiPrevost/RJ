@@ -11,6 +11,7 @@
     <string name="event">Évenements</string>
     <string name="deconnect">Sign out</string>
     <string name="addfriend">Add friend</string>
+    <string name="removefriend">Remove friend</string>
     <string name="friend">friend</string>
     <string name="go">Let\'s go!</string>
     <string name="create_new_event">Creat a new event</string>

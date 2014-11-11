@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,7 +45,7 @@ public class Main extends Activity implements View.OnClickListener,
 
     private TextView textdate = null;
     private int year, day, month, day_week, gender;
-    protected static String monthString, dayString, txtName, txtEmail, birthday, urlpicture = null; //private normalement
+    protected static String picture, monthString, dayString, txtName, txtEmail, birthday, urlpicture = null; //private normalement
 
     protected static boolean sign_out = false;
 
@@ -60,7 +61,7 @@ public class Main extends Activity implements View.OnClickListener,
     private ImageView imgProfilePic, christ;
     private com.google.riosport.customTextView titlefrag1;
     private com.google.riosport.customTextView titlefrag2;
-    protected static String picture;
+    public static int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +222,9 @@ public class Main extends Activity implements View.OnClickListener,
                         if (input.getText().toString().matches("[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]") && input.length()>0){
                         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
                         }else{
-                        Toast.makeText(getBaseContext(), "Wrong format, follow indications", Toast.LENGTH_LONG).show();
+                        Toast toast = Toast.makeText(getBaseContext(), "Wrong format, follow indications", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
                         }
 
                     }
@@ -357,8 +360,8 @@ public class Main extends Activity implements View.OnClickListener,
                     sign_out = false;
                 }
                 break;
-            case R.id.action_settings:
-                break;
+            //case R.id.action_settings:
+                //break;
         }
         return true;
     }

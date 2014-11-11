@@ -73,6 +73,7 @@ public class CreateEvent extends FragmentActivity {
     GoogleMap map;
     final int PLACES=0;
     final int PLACES_DETAILS=1;
+    String place = null;
     int STEP, year, day, month = 0;
 
 
@@ -175,6 +176,7 @@ public class CreateEvent extends FragmentActivity {
                 // Start downloading Google Place Details
                 // This causes to execute doInBackground() of DownloadTask class
                 placeDetailsDownloadTask.execute(url);
+                place=complete_place.getText().toString();
                 next.setEnabled(true);
             }
         });
@@ -246,7 +248,7 @@ public class CreateEvent extends FragmentActivity {
                     min_picker.setMaxValue(59);
                     STEP=2;
                 }else if (STEP == 2){
-                    //TODO coder le retour au fil d'actualité
+                    //TODO coder le retour au fil d'actualité, et retourner l'event créé
                 }
             }
         });
@@ -283,7 +285,44 @@ public class CreateEvent extends FragmentActivity {
             }
         });
 
-        //TODO: faire les listener pour les picker afin de récuperer les valeurs.
+        day_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int old_value, int new_value) {
+                //TODO renvoyer new_value
+            }
+        });
+
+        hour_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int old_value, int new_value) {
+                //TODO renvoyer new_value
+            }
+        });
+
+        min_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int old_value, int new_value) {
+                //TODO renvoyer new_value
+            }
+        });
+
+        description_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //TODO envoyer le descriptif
+            }
+        });
+
     }
 
 
@@ -307,8 +346,8 @@ public class CreateEvent extends FragmentActivity {
                 Intent intent = new Intent(CreateEvent.this, Main.class);
                 startActivity(intent);
                 break;
-            case R.id.action_settings:
-                break;
+            //case R.id.action_settings:
+              //  break;
         }
         return true;
     }
@@ -415,7 +454,7 @@ public class CreateEvent extends FragmentActivity {
 
                     LatLng point = new LatLng(latitude, longitude);
 
-                    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(point,13);
+                    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(point,15);
 
                     // Showing the user input location in the Google Map
                     map.moveCamera(cameraPosition);

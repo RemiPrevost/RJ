@@ -83,8 +83,8 @@ public class MyFragment extends FragmentActivity {
                     Intent intent = new Intent(MyFragment.this, Main.class);
                     startActivity(intent);
                 break;
-            case R.id.action_settings:
-                break;
+            //case R.id.action_settings:
+                //break;
         }
         return true;
     }
