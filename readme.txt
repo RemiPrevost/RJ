@@ -1,3 +1,7 @@
+Authors : Anthony Laloy, Pierre-Alexandre Maury, Remi Prevost
+Under the supervision of: Sergio Barbosa Villas-Boas (sbVB), www.sbvb.com.br,
+sbvillasboas@gmail.com, instructor at UFRJ, Brazil
+
 Classes of the RioSport application
 
 Package: com.google.riosport/elements
@@ -16,12 +20,12 @@ to create an event via different choices which the user has to make. it
 extends a fragment activity because a map fragment is used in this class.
 
 public class CustomAutoComplete extends AutoCompleteTextView {} : This 
-class allows the user to use spaces (ì ì)  in an AutoCompleteTextView 
-to find a place for his event because at first ìspacesî disabled the 
+class allows the user to use spaces (‚Äú ‚Äú)  in an AutoCompleteTextView 
+to find a place for his event because at first ‚Äúspaces‚Äù disabled the 
 functionality of the google map to propose a list of places.
 
 public class customTextView extends TextView {} : This class introduces 
-the ìJeNeTOublieraiJamais.ttfî police for the writing in a TextView.
+the ‚ÄúJeNeTOublieraiJamais.ttf‚Äù police for the writing in a TextView.
 
 public class FeedItem {} : This class defines an item of the event feed 
 (a location, a date, a picture of the sport a description).
