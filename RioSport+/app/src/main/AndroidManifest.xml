@@ -38,6 +38,11 @@
             android:label="@string/title_activity_create_event"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".Print_Event"
+            android:label="@string/title_activity_event"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
     <!-- To access Google+ APIs: -->

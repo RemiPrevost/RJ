@@ -3,6 +3,19 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/MyActionBar</item><!-- Customize your theme here. -->
         <item name="android:actionMenuTextColor">@color/green</item>
+        <item name="android:actionBarTabBarStyle">@style/AppTheme.ActionBar.TabBar</item>
+        <item name="android:actionBarTabTextStyle">@style/AppTheme.ActionBar.TabText</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.TabBar" parent="android:style/Widget.Holo.Light.ActionBar.TabBar">
+        <!-- This is an blue background -->
+        <item name="android:background">@color/gris_pastel</item>
+    </style>
+
+
+    <style name="AppTheme.ActionBar.TabText" parent="android:style/Widget.Holo.ActionBar.TabText">
+        <!-- This is a WHITE tab color -->
+        <item name="android:textColor">@android:color/holo_blue_dark</item>
     </style>
 
     <style name="MyActionBar"
@@ -54,6 +67,8 @@
     <style name="GoButton">
         <item name="android:background">@drawable/jaune</item>
     </style>
+
+
 
 </resources>
 

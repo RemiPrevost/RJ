@@ -4,18 +4,16 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-<com.google.riosport.customTextView
-    android:id="@+id/left"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="20dp"
-    android:text="FRIENDS" />
-
  <RelativeLayout
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
      android:orientation="horizontal">
+
+     <EditText
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:inputType="textPersonName"
+         android:id="@+id/find_friend"/>
 
      <ListView
          android:layout_width="wrap_content"
@@ -23,17 +21,11 @@
          android:choiceMode="singleChoice"
          android:id="@+id/list_friend"
          android:scrollbars="vertical"
-         android:layout_alignParentStart="true"
+         android:layout_below="@+id/find_friend"
          android:layout_marginTop="@dimen/middle_padd">
 
      </ListView>
 
      </RelativeLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_event"
-        android:text="@string/create_new_event"/>
 
 </LinearLayout>

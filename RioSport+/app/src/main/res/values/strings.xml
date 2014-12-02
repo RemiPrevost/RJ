@@ -5,18 +5,15 @@
     <string name="title_activity_main">RioSport</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="welcome">Bienvenue</string>
-    <string name="friends">Amis</string>
-    <string name="map">Carte</string>
-    <string name="event">Évenements</string>
     <string name="deconnect">Sign out</string>
     <string name="addfriend">Add friend</string>
     <string name="removefriend">Remove friend</string>
-    <string name="friend">friend</string>
+    <string name="friend">friends</string>
     <string name="go">Let\'s go!</string>
     <string name="create_new_event">Create a new event</string>
     <string name="create_event">create event</string>
     <string name="sport">Sport : </string>
+    <string name="quit">Quit RS</string>
     <string name="mon">Lun</string>
     <string name="tue">Mar</string>
     <string name="wed">Mer</string>
@@ -36,6 +33,10 @@
     <string name="oct">Oct</string>
     <string name="nov">Nov</string>
     <string name="dec">Dec</string>
+    <string name="feed">feed</string>
+    <string name="map">map</string>
+    <string name="all_sports">All sports</string>
+    <string name="my_sports">My sports</string>
     <string name="change_locale">Change Locale</string>
     <string name="list_moments_title">Touch a moment to delete</string>
     <string name="send_interactive_button_name">Send Interactive Post</string>
@@ -47,10 +48,8 @@
     <string name="greeting_status_sign_in_required">Sign-in required</string>
     <string name="greeting_status_error">Error signing in: %s.</string>
     <string name="loading_status">Loading…</string>
-    <string name="signing_in_status">Signing in with Google+</string>
+    <string name="signing_in_status">Signing in with Google+...</string>
     <string name="signed_in_status">Signed in as :</string>
-    <string name="revoke_access_status">Revoked access.</string>
-    <string name="revoke_access_error_status">Unable to revoke access.</string>
 
     <!-- Used if there was an error loading the signed in user's name. -->
     <string name="unknown_person">Unknown</string>
@@ -58,5 +57,9 @@
     <string name="plus_generic_error">Sign in with Google is not available.</string>
     <string name="progress_message">Signing in to Google…</string>
     <string name="title_activity_create_event">CreateEvent</string>
+    <string name="title_activity_event">Event</string>
+    <string name="participants"><b><i>The participants of the event:</i></b></string>
+    <string name="description"><b><i>Description: </i></b></string>
+
 
 </resources>

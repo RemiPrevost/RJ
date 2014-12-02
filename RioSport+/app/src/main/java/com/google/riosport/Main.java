@@ -34,6 +34,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.riosport.elements.Event;
 import com.google.riosport.elements.Gender;
 import com.google.riosport.elements.User;
 import com.google.riosport.webservice.WebServiceException;
@@ -42,6 +43,7 @@ import com.google.riosport.webservice.WebServiceInterface;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -67,18 +69,38 @@ public class Main extends Activity implements View.OnClickListener,
     private ImageView imgProfilePic, christ;
     private com.google.riosport.customTextView titlefrag1;
     private com.google.riosport.customTextView titlefrag2;
-    public static int id_riosport;
+    public static int id_riosport, is_user;
+    public static ArrayList<String> sport;
+    public static Boolean init_fragment, destroyed_sport, destroyed_visibility=false;
+    public static Boolean first_create_map=true;
+    public static ArrayList<Event> list_event = null;
+    public static ArrayList<Event> list_event_feed = null;
+    public static ArrayList<Event> list_event_feed_private = null;
+    public static Integer[] imageId = {R.drawable.basket, R.drawable.football, R.drawable.volley};
+    public static Event event_feed;
+    public static Boolean reload_feed = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (getIntent().getBooleanExtra("LOGOUT", false))
+        {
+            finish();
+        }
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         //final Animation FadeIn = AnimationUtils.loadAnimation(this, R.anim.fadein);
 
         //setCurrentDate();
+        try {
+            sport = WebServiceInterface.getSports();
+        } catch (WebServiceException e) {
+            e.printStackTrace();
+        }
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Plus.API, Plus.PlusOptions.builder()
                         .addActivityTypes("http://schemas.google.com/AddActivity", "http://schemas.google.com/BuyActivity").build())
@@ -180,7 +202,11 @@ public class Main extends Activity implements View.OnClickListener,
             mSignInStatus.setVisibility(View.INVISIBLE);
             getProfileInformation();
             try {
-                if (birthday == null && WebServiceInterface.isUser("google+",id_user)==0) {
+                is_user = WebServiceInterface.isUser("google+",id_user);
+                if (is_user==1){
+                    init_fragment=true;
+                }
+                if (birthday == null && is_user==0) {
                     AlertDialog.Builder box;
                     final EditText input = new EditText(this);
                     box = new AlertDialog.Builder(this);
@@ -249,7 +275,7 @@ public class Main extends Activity implements View.OnClickListener,
 
                         }
                     });
-                }else if (WebServiceInterface.isUser("google+",id_user)==1){
+                }else if (is_user==1){
                     id_riosport=WebServiceInterface.getInternalId("google+",id_user);
                     updateButtons(true /* isSignedIn */);
                     Intent intent = new Intent(Main.this, MyFragment.class);
@@ -384,6 +410,8 @@ public class Main extends Activity implements View.OnClickListener,
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -402,6 +430,26 @@ public class Main extends Activity implements View.OnClickListener,
                     sign_out = false;
                 }
                 break;
+            case R.id.quit:
+                AlertDialog.Builder box = new AlertDialog.Builder(this);
+                box.setIcon(R.drawable.rs);
+                box.setTitle("Quit RioSport ?");
+                box.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getApplicationContext(), Main.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("LOGOUT", true);
+                                startActivity(intent);
+                            }
+                        }
+                );
+
+                box.setNegativeButton("No", null);
+                box.show();
+                break;
+
+
             //case R.id.action_settings:
                 //break;
         }

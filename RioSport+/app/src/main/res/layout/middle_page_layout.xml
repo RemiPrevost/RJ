@@ -4,21 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.riosport.customTextView
-        android:id="@+id/middle"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:text="In the middle" />
+        android:divider="@null" />
 
-    <!--<ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/testimage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        />
-
--->
 </LinearLayout>

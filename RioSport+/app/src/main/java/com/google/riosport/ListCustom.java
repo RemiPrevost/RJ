@@ -9,16 +9,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by pierre-alexandremaury on 05/11/2014.
  */
 public class ListCustom extends ArrayAdapter<String> {
     private final Activity context;
-    private final String[] sport;
+    private final ArrayList<String> sport;
     private final Integer[] imageId;
 
     public ListCustom(Activity context,
-                      String[] sport, Integer[] imageId ) {
+                      ArrayList<String> sport, Integer[] imageId ) {
         super(context, R.layout.list_custom, sport);
         this.context = context;
         this.sport = sport;
@@ -32,7 +34,7 @@ public class ListCustom extends ArrayAdapter<String> {
         rowView.computeScroll();
         TextView txtTitle = (TextView) rowView.findViewById(R.id.text_list);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.image_list);
-        txtTitle.setText(sport[position]);
+        txtTitle.setText(sport.get(position));
         imageView.setImageResource(imageId[position]);
         return rowView;
     }

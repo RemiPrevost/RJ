@@ -1,6 +1,8 @@
 package com.google.riosport;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,6 +36,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.riosport.elements.Event;
+import com.google.riosport.webservice.WebServiceException;
+import com.google.riosport.webservice.WebServiceInterface;
 
 import org.json.JSONObject;
 
@@ -45,6 +50,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -52,25 +58,22 @@ import java.util.List;
 
 public class CreateEvent extends FragmentActivity {
 
-    String choice = null;
-    ListView list;
-    String[] sport = {"Football","Volley","Basket"};
-    Integer[] imageId = {R.drawable.football, R.drawable.volley, R.drawable.basket};
-    TextView title, type, duration, day_choice, hour_choice, minutes_choice, description;
-    RadioGroup group;
-    NumberPicker day_picker, hour_picker, min_picker;
-    EditText description_text;
-    Button next;
-    DatePicker date;
-    TimePicker time;
-    AutoCompleteTextView complete_place;
-    DownloadTask placesDownloadTask, placeDetailsDownloadTask;
-    ParserTask placesParserTask, placeDetailsParserTask;
-    GoogleMap map;
-    final int PLACES=0;
-    final int PLACES_DETAILS=1;
-    String place = null;
-    int STEP, year, day, month = 0;
+    private Event event;
+    private ListView list;
+    private TextView title, type, duration, day_choice, hour_choice, minutes_choice, description;
+    private RadioGroup group;
+    private NumberPicker day_picker, hour_picker, min_picker;
+    private EditText description_text;
+    private Button next;
+    private DatePicker date;
+    private TimePicker time;
+    private AutoCompleteTextView complete_place;
+    private DownloadTask placesDownloadTask, placeDetailsDownloadTask;
+    private ParserTask placesParserTask, placeDetailsParserTask;
+    private GoogleMap map;
+    private final int PLACES=0;
+    private final int PLACES_DETAILS=1;
+    private int STEP, year, day, month = 0;
 
 
     @Override
@@ -107,14 +110,15 @@ public class CreateEvent extends FragmentActivity {
         fm.getView().setVisibility(View.INVISIBLE);
         map=fm.getMap();
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        ListCustom adapter = new ListCustom(this, sport, imageId);
+        event = new Event();
+        ListCustom adapter = new ListCustom(this, Main.sport, Main.imageId);
         list=(ListView)findViewById(R.id.choose_sport);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                choice = sport[position];
+                event.setSport(Main.sport.get(position));
                 list.startAnimation(FadeOut);
                 list.setVisibility(View.INVISIBLE);
                 title.startAnimation(FadeOut);
@@ -172,7 +176,7 @@ public class CreateEvent extends FragmentActivity {
                 // Start downloading Google Place Details
                 // This causes to execute doInBackground() of DownloadTask class
                 placeDetailsDownloadTask.execute(url);
-                place=complete_place.getText().toString();
+                event.setLocation(complete_place.getText().toString());
                 next.setEnabled(true);
             }
         });
@@ -244,7 +248,15 @@ public class CreateEvent extends FragmentActivity {
                     min_picker.setMaxValue(59);
                     STEP=2;
                 }else if (STEP == 2){
-                    //TODO coder le retour au fil d'actualité, et retourner l'event créé
+                    try {
+                        WebServiceInterface.addEvent(event);
+                    } catch (WebServiceException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getBaseContext(), "Event Created!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CreateEvent.this, MyFragment.class);
+                    Main.reload_feed = true;
+                    startActivityForResult(intent, 10);
                 }
             }
         });
@@ -252,18 +264,21 @@ public class CreateEvent extends FragmentActivity {
         date.init(date.getYear(), date.getMonth(), date.getDayOfMonth(), new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int y, int m, int d) {
-                //TODO envoyer les infos dans les champs correspondants de la base
+                event.setDay(d);
+                event.setYear(y);
+                event.setMonth(m);
             }
         });
 
         time.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int h, int m) {
-                //TODO envoyer les infos dans les champs correspondants de la base
                 if (h < calendar.get(Calendar.HOUR_OF_DAY) || ((m < calendar.get(Calendar.MINUTE)) && (h == calendar.get(Calendar.HOUR_OF_DAY)))) {
                     Toast.makeText(getBaseContext(), "Do not select a hour before the current hour!", Toast.LENGTH_SHORT).show();
                     next.setEnabled(false);
                 } else {
+                    event.setHour(h);
+                    event.setMinute(m);
                     next.setEnabled(true);
                 }
             }
@@ -273,9 +288,17 @@ public class CreateEvent extends FragmentActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if(i == R.id.private_button){
-                    //TODO renvoyer que l'évenement est privé
+                    try {
+                        event.setVisibility(Event.PRIVATE);
+                    } catch (WebServiceException e) {
+                        e.printStackTrace();
+                    }
                 }else {
-                    //TODO renvoyer que l'évenement est public
+                    try {
+                        event.setVisibility(Event.PUBLIC);
+                    } catch (WebServiceException e) {
+                        e.printStackTrace();
+                    }
                 }
                 next.setEnabled(true);
             }
@@ -284,21 +307,21 @@ public class CreateEvent extends FragmentActivity {
         day_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int old_value, int new_value) {
-                //TODO renvoyer new_value
+                event.setDurationDay(new_value);
             }
         });
 
         hour_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int old_value, int new_value) {
-                //TODO renvoyer new_value
+                event.setDurationHour(new_value);
             }
         });
 
         min_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int old_value, int new_value) {
-                //TODO renvoyer new_value
+                event.setDurationMinute(new_value);
             }
         });
 
@@ -315,9 +338,11 @@ public class CreateEvent extends FragmentActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                //TODO envoyer le descriptif
+                event.setDescription(editable.toString());
             }
         });
+
+        event.setOwner(Main.id_riosport);
 
     }
 
@@ -342,8 +367,24 @@ public class CreateEvent extends FragmentActivity {
                 Intent intent = new Intent(CreateEvent.this, Main.class);
                 startActivity(intent);
                 break;
-            //case R.id.action_settings:
-              //  break;
+            case R.id.quit:
+                AlertDialog.Builder box = new AlertDialog.Builder(this);
+                box.setIcon(R.drawable.rs);
+                box.setTitle("Quit RioSport ?");
+                box.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getApplicationContext(), Main.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("LOGOUT", true);
+                                startActivity(intent);
+                            }
+                        }
+                );
+
+                box.setNegativeButton("No", null);
+                box.show();
+                break;
         }
         return true;
     }
@@ -463,7 +504,8 @@ public class CreateEvent extends FragmentActivity {
 
                     // Adding the marker in the Google Map
                     map.addMarker(options);
-
+                    event.setLatitude(latitude);
+                    event.setLongitude(longitude);
                     break;
             }
         }

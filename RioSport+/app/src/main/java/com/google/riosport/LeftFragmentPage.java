@@ -28,7 +28,7 @@ import java.io.FileNotFoundException;
 public class LeftFragmentPage extends Fragment {
 
     ListView list;
-    private Button friend, event;
+    private Button friend;
     String[] profile_txt = {Main.txtName};
     Bitmap[] Image = new Bitmap[1];
 
@@ -37,12 +37,13 @@ public class LeftFragmentPage extends Fragment {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View leftview = inflater.inflate(R.layout.left_page_layout, container, false);
+
         try{
             File f= new File(Main.picture, "profile.png");
             Bitmap image = getCircleBitmap(BitmapFactory.decodeStream(new FileInputStream(f)));
             Image[0]=image;
-            //profilepicture.setImageBitmap(getCircleBitmap(image));
         }
+
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
@@ -52,17 +53,8 @@ public class LeftFragmentPage extends Fragment {
         list=(ListView)leftview.findViewById(R.id.list_friend);
         list.setAdapter(adapter);
 
-        event = (Button) leftview.findViewById(R.id.create_event);
-        event.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CreateEvent.class);
-                startActivityForResult(intent, 10);
-            }
-        });
 
-        //code
-        Log.e("",""+Main.id_riosport);
+
         return leftview;
     }
 
@@ -88,4 +80,27 @@ public class LeftFragmentPage extends Fragment {
 
         return output;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+    }
+
 }
